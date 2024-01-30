@@ -1,0 +1,68 @@
+from docx import Document
+from datetime import datetime
+
+def generate_cv(name, email, phone, education, experience, skills):
+    # Create a new Document
+    doc = Document()
+
+    # Add a heading
+    doc.add_heading('Curriculum Vitae', level=1)
+
+    # Personal Information
+    doc.add_heading('Personal Information', level=2)
+    doc.add_paragraph(f'Name: {name}')
+    doc.add_paragraph(f'Email: {email}')
+    doc.add_paragraph(f'Phone: {phone}')
+
+    # Education
+    doc.add_heading('Education', level=2)
+    for degree in education:
+        doc.add_paragraph(f'{degree["degree"]} in {degree["field"]}')
+        doc.add_paragraph(f'{degree["university"]}, {degree["year"]}')
+
+    # Work Experience
+    doc.add_heading('Work Experience', level=2)
+    for job in experience:
+        doc.add_paragraph(f'{job["title"]}, {job["company"]}')
+        doc.add_paragraph(f'{job["start_date"]} - {job["end_date"]}')
+        doc.add_paragraph(f'{job["description"]}')
+
+    # Skills
+    doc.add_heading('Skills', level=2)
+    doc.add_paragraph(', '.join(skills))
+
+    # Save the document
+    current_datetime = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+    filename = f'CV_{name.replace(" ", "_")}_{current_datetime}.docx'
+    doc.save(filename)
+
+    print(f'CV generated successfully: {filename}')
+
+# Example data
+name = 'John Doe'
+email = 'john.doe@example.com'
+phone = '+1 123-456-7890'
+
+education = [
+    {
+        'degree': 'Bachelor of Science',
+        'field': 'Computer Science',
+        'university': 'University of Example',
+        'year': '2020'
+    }
+]
+
+experience = [
+    {
+        'title': 'Software Engineer',
+        'company': 'Tech Solutions Inc.',
+        'start_date': '2020-01-01',
+        'end_date': '2022-12-31',
+        'description': 'Developed and maintained software applications.'
+    }
+]
+
+skills = ['Python', 'Java', 'Web Development', 'Problem Solving']
+
+# Generate CV
+generate_cv(name, email, phone, education, experience, skills)
